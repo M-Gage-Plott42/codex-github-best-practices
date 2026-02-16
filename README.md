@@ -24,6 +24,7 @@ Opinionated template for AI-assisted development repositories using Codex + GitH
 - `.pre-commit-config.yaml`
 - `.markdownlint.yaml`
 - `.yamllint.yml`
+- `src/template_sanity.py`
 - `CHANGELOG.md`
 - `SECURITY.md`
 - `docs/standards.md`

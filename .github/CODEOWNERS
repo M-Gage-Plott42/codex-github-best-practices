@@ -1,0 +1,8 @@
+# Default owner for all paths.
+* @M-Gage-Plott42
+
+# Critical governance and automation paths.
+/.github/workflows/ @M-Gage-Plott42
+/scripts/ @M-Gage-Plott42
+/AGENTS.md @M-Gage-Plott42
+/docs/standards.md @M-Gage-Plott42

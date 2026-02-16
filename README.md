@@ -16,6 +16,28 @@ Opinionated template for AI-assisted development repositories using Codex + GitH
 - non-blocking admin bypass for branch rulesets,
 - dual `AGENTS.md` pattern (live + illustrative template).
 
+## Use This Template In 60 Seconds
+
+1. Click **Use this template** on GitHub to create your new repository.
+2. Set your repository name/description and confirm default branch is `main`.
+3. Run bootstrap to apply branch protection ruleset + security defaults:
+
+```bash
+bash scripts/bootstrap_repo.sh <owner>/<repo>
+```
+
+4. Add/confirm topics so discoverability is instant:
+
+```bash
+gh repo edit <owner>/<repo> \
+  --add-topic github-actions \
+  --add-topic codeql \
+  --add-topic dependabot \
+  --add-topic pre-commit \
+  --add-topic repo-template \
+  --add-topic governance
+```
+
 ## Included Files
 
 - `.github/dependabot.yml`

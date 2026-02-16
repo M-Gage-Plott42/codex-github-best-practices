@@ -30,6 +30,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Updated bootstrap to attempt cleanup of legacy dynamic CodeQL workflow entries
   with manual UI fallback messaging if API disable is rejected.
 - Updated pre-commit hooks to include `actionlint` and `shellcheck` parity checks.
+- Added a "Use This Template In 60 Seconds" section to README with a first-action
+  setup path and topic guidance.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
 
 ## [0.1.0] - 2026-02-16

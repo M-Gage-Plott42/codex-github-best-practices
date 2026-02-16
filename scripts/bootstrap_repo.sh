@@ -27,11 +27,18 @@ gh api -X PATCH "repos/${REPO}" \
   -H 'Accept: application/vnd.github+json' \
   -f security_and_analysis[dependabot_security_updates][status]=enabled >/dev/null
 
-gh api -X PATCH "repos/${REPO}/code-scanning/default-setup" \
+# Prefer actions+python when available, but fall back to actions-only for repos
+# that do not yet contain Python files.
+if ! gh api -X PATCH "repos/${REPO}/code-scanning/default-setup" \
   -H 'Accept: application/vnd.github+json' \
   -f state=configured \
   -f languages[]=actions \
-  -f languages[]=python >/dev/null
+  -f languages[]=python >/dev/null 2>&1; then
+  gh api -X PATCH "repos/${REPO}/code-scanning/default-setup" \
+    -H 'Accept: application/vnd.github+json' \
+    -f state=configured \
+    -f languages[]=actions >/dev/null
+fi
 
 echo "Creating/refreshing default-branch ruleset..."
 

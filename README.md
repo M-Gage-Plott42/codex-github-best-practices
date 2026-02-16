@@ -32,6 +32,8 @@ Opinionated template for AI-assisted development repositories using Codex + GitH
 - `.yamllint.yml`
 - `AGENTS.md`
 - `CONTRIBUTING.md`
+- `scripts/generate_ruleset_payload.sh`
+- `scripts/smoke_bootstrap_ruleset_payload.sh`
 - `src/template_sanity.py`
 - `CHANGELOG.md`
 - `SECURITY.md`
@@ -61,10 +63,18 @@ This applies settings and rulesets with admin bypass so required checks protect 
 
 For CodeQL, this template uses the advanced workflow in `.github/workflows/codeql.yml`, and bootstrap disables GitHub's CodeQL default setup to prevent SARIF upload conflicts.
 
+If a legacy dynamic CodeQL workflow entry remains listed in Actions metadata, bootstrap attempts cleanup and prints a manual UI fallback if the GitHub API refuses the disable operation.
+
 CodeQL required-check rollout is intentionally two-phase. After one confirmed green CodeQL run, enforce CodeQL checks in branch rulesets with:
 
 ```bash
 REQUIRE_CODEQL_CHECKS=1 bash scripts/bootstrap_repo.sh M-Gage-Plott42/your-repo
+```
+
+Ruleset payload smoke test:
+
+```bash
+bash scripts/smoke_bootstrap_ruleset_payload.sh
 ```
 
 ## AGENTS.md Pattern

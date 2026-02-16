@@ -36,6 +36,7 @@ This template consolidates maintainership patterns proven in the following repos
 - Pre-commit hooks to mirror CI checks locally.
 - `AGENTS.md` operational guidance for repository-local agent behavior.
 - `docs/AGENTS.example.md` as a copy/adapt baseline for downstream repos.
+- Bootstrap ruleset payload generation covered by a dedicated smoke script.
 
 ## Release and Audit Defaults
 

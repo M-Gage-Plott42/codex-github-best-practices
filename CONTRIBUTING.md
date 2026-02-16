@@ -20,6 +20,7 @@ markdownlint-cli2 "**/*.md"
 actionlint
 shellcheck scripts/bootstrap_repo.sh
 bash -n scripts/bootstrap_repo.sh
+bash scripts/smoke_bootstrap_ruleset_payload.sh
 ```
 
 ## Pull Request Guidance

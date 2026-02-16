@@ -4,11 +4,27 @@ set -euo pipefail
 if [[ $# -lt 1 ]]; then
   echo "Usage: $0 <owner/repo>"
   echo "Optional: REQUIRE_CODEQL_CHECKS=1 to require CodeQL checks after first green run."
+  echo "Optional: RULESET_PAYLOAD_ONLY=1 to render ruleset payload JSON and exit."
   exit 1
 fi
 
 REPO="$1"
 REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS:-0}"
+RULESET_PAYLOAD_ONLY="${RULESET_PAYLOAD_ONLY:-0}"
+RULESET_PAYLOAD_PATH="${RULESET_PAYLOAD_PATH:-/tmp/repo_ruleset_payload.json}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS}" "${SCRIPT_DIR}/generate_ruleset_payload.sh" > "${RULESET_PAYLOAD_PATH}"; then
+  :
+else
+  echo "Failed to generate ruleset payload at ${RULESET_PAYLOAD_PATH}." >&2
+  exit 1
+fi
+
+if [[ "${RULESET_PAYLOAD_ONLY}" == "1" ]]; then
+  echo "Wrote ruleset payload to ${RULESET_PAYLOAD_PATH}."
+  exit 0
+fi
 
 echo "Applying repo settings to ${REPO}..."
 gh repo edit "${REPO}" \
@@ -41,92 +57,34 @@ else
   echo "         Disable it manually in Security -> Code scanning to avoid conflicts." >&2
 fi
 
+legacy_dynamic_codeql_ids="$(gh api "repos/${REPO}/actions/workflows" --jq '.workflows[] | select(.path=="dynamic/github-code-scanning/codeql") | .id' || true)"
+if [[ -n "${legacy_dynamic_codeql_ids}" ]]; then
+  echo "Found legacy dynamic CodeQL workflow entries. Attempting cleanup..."
+  while IFS= read -r workflow_id; do
+    [[ -z "${workflow_id}" ]] && continue
+    if gh workflow disable -R "${REPO}" "${workflow_id}" >/dev/null 2>&1; then
+      echo "Disabled legacy dynamic CodeQL workflow ${workflow_id}."
+    else
+      echo "Warning: Unable to disable legacy dynamic CodeQL workflow ${workflow_id} via API." >&2
+      echo "         Disable it manually in Security -> Code scanning settings." >&2
+    fi
+  done <<< "${legacy_dynamic_codeql_ids}"
+fi
+
 echo "Creating/refreshing default-branch ruleset..."
 
 existing_id="$(gh api "repos/${REPO}/rulesets" --jq '.[] | select(.name=="main-pr-required-checks") | .id' || true)"
-
-required_checks=(
-  "ruff"
-  "markdownlint"
-  "yamllint"
-  "actionlint"
-  "shellcheck"
-)
-
 if [[ "${REQUIRE_CODEQL_CHECKS}" == "1" ]]; then
-  required_checks+=(
-    "Analyze (python)"
-    "Analyze (actions)"
-  )
   echo "Including CodeQL checks in required status checks."
 else
   echo "Skipping CodeQL required checks. Set REQUIRE_CODEQL_CHECKS=1 after one green CodeQL run."
 fi
 
-required_checks_json=""
-for context in "${required_checks[@]}"; do
-  if [[ -n "${required_checks_json}" ]]; then
-    required_checks_json+=$',\n'
-  fi
-  required_checks_json+="          {\"context\": \"${context}\"}"
-done
-
-cat > /tmp/repo_ruleset_payload.json <<JSON
-{
-  "name": "main-pr-required-checks",
-  "target": "branch",
-  "enforcement": "active",
-  "bypass_actors": [
-    {
-      "actor_id": 5,
-      "actor_type": "RepositoryRole",
-      "bypass_mode": "always"
-    }
-  ],
-  "conditions": {
-    "ref_name": {
-      "include": [
-        "~DEFAULT_BRANCH"
-      ],
-      "exclude": []
-    }
-  },
-  "rules": [
-    {
-      "type": "pull_request",
-      "parameters": {
-        "required_approving_review_count": 0,
-        "dismiss_stale_reviews_on_push": false,
-        "required_reviewers": [],
-        "require_code_owner_review": false,
-        "require_last_push_approval": false,
-        "required_review_thread_resolution": true,
-        "allowed_merge_methods": [
-          "merge",
-          "squash",
-          "rebase"
-        ]
-      }
-    },
-    {
-      "type": "required_status_checks",
-      "parameters": {
-        "strict_required_status_checks_policy": true,
-        "do_not_enforce_on_create": false,
-        "required_status_checks": [
-${required_checks_json}
-        ]
-      }
-    }
-  ]
-}
-JSON
-
 if [[ -n "${existing_id}" ]]; then
-  gh api -X PUT "repos/${REPO}/rulesets/${existing_id}" --input /tmp/repo_ruleset_payload.json >/dev/null
+  gh api -X PUT "repos/${REPO}/rulesets/${existing_id}" --input "${RULESET_PAYLOAD_PATH}" >/dev/null
   echo "Updated ruleset ${existing_id}."
 else
-  gh api -X POST "repos/${REPO}/rulesets" --input /tmp/repo_ruleset_payload.json >/dev/null
+  gh api -X POST "repos/${REPO}/rulesets" --input "${RULESET_PAYLOAD_PATH}" >/dev/null
   echo "Created ruleset main-pr-required-checks."
 fi
 

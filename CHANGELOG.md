@@ -14,6 +14,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added Actions lint workflow (`actionlint`).
 - Added shell lint workflow (`shellcheck`).
 - Added `CONTRIBUTING.md` and `.github/CODEOWNERS`.
+- Added `scripts/generate_ruleset_payload.sh` for reusable ruleset JSON generation.
+- Added `scripts/smoke_bootstrap_ruleset_payload.sh` for payload smoke testing.
 
 ### Changed
 
@@ -24,6 +26,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Updated bootstrap ruleset payload to require `actionlint` and `shellcheck`.
 - Added optional CodeQL-required-check rollout via
   `REQUIRE_CODEQL_CHECKS=1` after first green CodeQL run.
+- Updated bootstrap to support `RULESET_PAYLOAD_ONLY=1` for payload-only runs.
+- Updated bootstrap to attempt cleanup of legacy dynamic CodeQL workflow entries
+  with manual UI fallback messaging if API disable is rejected.
+- Updated pre-commit hooks to include `actionlint` and `shellcheck` parity checks.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
 
 ## [0.1.0] - 2026-02-16

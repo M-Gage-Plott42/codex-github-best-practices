@@ -27,7 +27,7 @@ gh api -X PUT "repos/${REPO}/private-vulnerability-reporting" \
 
 gh api -X PATCH "repos/${REPO}" \
   -H 'Accept: application/vnd.github+json' \
-  -f security_and_analysis[dependabot_security_updates][status]=enabled >/dev/null
+  -f 'security_and_analysis[dependabot_security_updates][status]=enabled' >/dev/null
 
 # This template uses advanced CodeQL configuration from
 # .github/workflows/codeql.yml. Default setup and advanced setup cannot both

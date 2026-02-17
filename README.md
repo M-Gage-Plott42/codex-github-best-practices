@@ -16,6 +16,15 @@ Opinionated template for AI-assisted development repositories using Codex + GitH
 - non-blocking admin bypass for branch rulesets,
 - dual `AGENTS.md` pattern (live + illustrative template).
 
+## Harness Engineering Model
+
+This template treats repository docs as an operating harness for both humans and
+agents:
+
+- `AGENTS.md` defines local execution behavior and escalation rules.
+- `docs/standards.md` defines governance, CI, and quality baselines.
+- `docs/execution-plan-template.md` is the default plan format for non-trivial changes.
+
 ## Use This Template In 60 Seconds
 
 1. Click **Use this template** on GitHub to create your new repository.
@@ -56,6 +65,7 @@ gh repo edit <owner>/<repo> \
 - `CONTRIBUTING.md`
 - `scripts/generate_ruleset_payload.sh`
 - `scripts/smoke_bootstrap_ruleset_payload.sh`
+- `docs/execution-plan-template.md`
 - `src/template_sanity.py`
 - `CHANGELOG.md`
 - `SECURITY.md`

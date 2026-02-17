@@ -11,6 +11,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Added repository-level `AGENTS.md` for live Codex collaboration rules.
 - Added `docs/AGENTS.example.md` as a downstream template.
+- Added `docs/execution-plan-template.md` for structured non-trivial task planning.
 - Added Actions lint workflow (`actionlint`).
 - Added shell lint workflow (`shellcheck`).
 - Added `CONTRIBUTING.md` and `.github/CODEOWNERS`.
@@ -32,6 +33,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Updated pre-commit hooks to include `actionlint` and `shellcheck` parity checks.
 - Added a "Use This Template In 60 Seconds" section to README with a first-action
   setup path and topic guidance.
+- Added harness-engineering guidance across README, AGENTS, standards, and
+  contributing docs.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
 
 ## [0.1.0] - 2026-02-16

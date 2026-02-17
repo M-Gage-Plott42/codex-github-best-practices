@@ -38,6 +38,33 @@ This template consolidates maintainership patterns proven in the following repos
 - `docs/AGENTS.example.md` as a copy/adapt baseline for downstream repos.
 - Bootstrap ruleset payload generation covered by a dedicated smoke script.
 
+## Harness Engineering Standards
+
+### Legibility
+
+- Documentation should be optimized for agent execution, not only human narrative.
+- Critical operational rules should be explicit, terse, and colocated with the repo.
+- The current source of truth for agent behavior is `AGENTS.md`.
+
+### Entropy Control
+
+- Any change to `.github/workflows/*`, `scripts/bootstrap_repo.sh`, or security posture
+  must include synchronized updates to docs and changelog in the same patch.
+- Conflicting docs should be treated as defects and fixed immediately.
+- Policy changes should include both intent and enforcement mechanism.
+
+### Execution Planning
+
+- Non-trivial changes should begin with an explicit execution plan.
+- Use `docs/execution-plan-template.md` for common structure and handoff format.
+- Plans should list assumptions, validation steps, and rollback path.
+
+### Steering Loop And Adaptation
+
+- Long-running or uncertain work should expose checkpoints where scope can be adjusted.
+- Unknowns and blockers should be surfaced early, with explicit fallback options.
+- Standards should be revised as tools and model behavior evolve.
+
 ## Release and Audit Defaults
 
 - Semantic version tags and release notes.

@@ -19,6 +19,30 @@ Prefer changes that improve downstream reliability, security, and clarity.
 - Prefer minimal, auditable diffs over broad refactors.
 - Use pinned GitHub Actions versions in workflows.
 
+## Context Map
+
+- CI/workflow changes:
+  Start with `.github/workflows/*`, then `README.md`, then `docs/standards.md`.
+- Governance and automation changes:
+  Start with `scripts/bootstrap_repo.sh`, then `CONTRIBUTING.md`, then `docs/standards.md`.
+- Agent policy changes:
+  Start with `AGENTS.md`, then `docs/AGENTS.example.md`, then `README.md`.
+
+## Planning And Steering
+
+- For non-trivial tasks, create an execution plan before edits.
+- Use `docs/execution-plan-template.md` for plan structure.
+- Surface assumptions and unknowns early; do not hide them in final summaries.
+- If scope changes mid-task, update the plan and call out the decision explicitly.
+
+## Unknowns And Escalation
+
+- If behavior is ambiguous or blocked by external settings, report exact blocker and
+  provide both CLI and manual UI fallback paths.
+- If docs conflict with code, treat code as current truth and include doc-sync updates
+  in the same change set.
+- Do not proceed with destructive operations without explicit user direction.
+
 ## CodeQL Policy
 
 - This template uses **advanced** CodeQL setup via `.github/workflows/codeql.yml`.

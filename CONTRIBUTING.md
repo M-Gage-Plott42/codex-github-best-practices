@@ -9,6 +9,12 @@ small, portable, and easy to apply in downstream repos.
 2. Keep workflow, script, and docs changes synchronized.
 3. Update `CHANGELOG.md` under `[Unreleased]` for user-visible changes.
 
+## Execution Plan Requirement
+
+Use `docs/execution-plan-template.md` when the change is non-trivial (multi-file
+edits, policy changes, CI/security changes, or uncertain scope). Include the plan
+in the PR description.
+
 ## Local Checks
 
 Run the same checks expected by CI:
@@ -29,6 +35,15 @@ bash scripts/smoke_bootstrap_ruleset_payload.sh
 2. Explain intent, risk, and rollback strategy in the PR description.
 3. Include links to relevant workflow runs for CI/security changes.
 4. Do not merge while required checks are red.
+
+## Documentation Entropy Controls
+
+When changes affect governance or automation behavior, update docs in the same PR:
+
+1. Workflow changes: update `README.md` and `docs/standards.md`.
+2. Bootstrap/script behavior changes: update `README.md`, `docs/standards.md`, and usage examples.
+3. Policy or process changes: update `AGENTS.md` and/or `CONTRIBUTING.md`.
+4. User-visible behavior changes: update `CHANGELOG.md`.
 
 ## CodeQL Check Rollout Policy
 

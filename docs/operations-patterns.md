@@ -12,6 +12,7 @@ bash scripts/run_repo_quick_gate.sh
 ```
 
 This runs:
+
 - ruleset payload smoke (`scripts/smoke_bootstrap_ruleset_payload.sh`)
 - local pre-commit parity if `pre-commit` is available
 
@@ -75,6 +76,7 @@ python3 scripts/check_storage_boundaries.py --config docs/policies/storage_bound
 Keep active docs short and move historical details to archive/ADRs.
 
 Suggested baseline:
+
 - active focus doc: `docs/active/current_focus.example.md`
 - decision memory: `docs/adr/README.md`
 

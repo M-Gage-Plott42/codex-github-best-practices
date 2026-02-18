@@ -140,6 +140,7 @@ bash scripts/smoke_bootstrap_ruleset_payload.sh
 ## Optional Operational Patterns
 
 The template now includes portable patterns for:
+
 - event-triggered setup checks,
 - machine-readable host profiles,
 - manifest-first run provenance,

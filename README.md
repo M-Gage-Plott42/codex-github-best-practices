@@ -65,7 +65,15 @@ agents:
 - `CONTRIBUTING.md`
 - `scripts/generate_ruleset_payload.sh`
 - `scripts/smoke_bootstrap_ruleset_payload.sh`
+- `scripts/run_repo_quick_gate.sh`
+- `scripts/check_storage_boundaries.py`
 - `docs/execution-plan-template.md`
+- `docs/operations-patterns.md`
+- `docs/active/current_focus.example.md`
+- `docs/adr/README.md`
+- `docs/policies/host_profiles.example.json`
+- `docs/policies/storage_boundaries.example.json`
+- `docs/policies/run_manifest.example.json`
 - `src/template_sanity.py`
 - `CHANGELOG.md`
 - `SECURITY.md`
@@ -83,6 +91,21 @@ source .venv/bin/activate
 pip install pre-commit ruff yamllint
 pre-commit install
 pre-commit run --all-files
+bash scripts/run_repo_quick_gate.sh
+```
+
+## Quick Local Gate
+
+Use one command before push:
+
+```bash
+bash scripts/run_repo_quick_gate.sh
+```
+
+Optional strict boundary check:
+
+```bash
+bash scripts/run_repo_quick_gate.sh --with-boundaries --strict-boundaries
 ```
 
 ## Bootstrap New Repo Settings
@@ -113,3 +136,14 @@ bash scripts/smoke_bootstrap_ruleset_payload.sh
 
 - `AGENTS.md` is the live operational contract for this template repository.
 - `docs/AGENTS.example.md` is a reusable starting template for downstream repositories.
+
+## Optional Operational Patterns
+
+The template now includes portable patterns for:
+- event-triggered setup checks,
+- machine-readable host profiles,
+- manifest-first run provenance,
+- storage boundary audits,
+- active-doc contraction with ADR memory.
+
+See `docs/operations-patterns.md`.

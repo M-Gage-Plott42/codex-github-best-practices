@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "updated_utc": "2026-02-18T00:00:00Z",
+  "default_profile": "laptop",
+  "profiles": {
+    "laptop": {
+      "jobs_default": 8,
+      "compute_backend_default": "cpu"
+    },
+    "desktop": {
+      "jobs_default": 12,
+      "compute_backend_default": "cpu"
+    },
+    "hpc_cpu": {
+      "jobs_default": 64,
+      "compute_backend_default": "cpu"
+    },
+    "hpc_gpu": {
+      "jobs_default": 64,
+      "compute_backend_default": "cuda"
+    }
+  },
+  "notes": "Example-only policy file. Tune profiles to your infrastructure."
+}

@@ -23,6 +23,15 @@ Example:
 - Prefer minimal diffs with clear intent.
 - Avoid speculative refactors unless explicitly requested.
 
+## Setup Triggers (Recommended)
+
+- Do not bootstrap on every thread.
+- Bootstrap when:
+  - new machine/fresh clone,
+  - environment was rebuilt, or
+  - dependency/hook config changed.
+- Use one quick local gate before major pushes.
+
 ## Quality Gates
 
 - Local checks to run:
@@ -42,3 +51,10 @@ Example:
 - Summarize what changed and why.
 - Call out any skipped validations.
 - Provide next steps if follow-up actions are required outside the repo.
+
+## Optional Scale Patterns
+
+- Machine-readable host profiles for default jobs/backend.
+- Manifest-first run provenance and index integrity checks.
+- Storage boundary audits for local-only artifact directories.
+- Active focus doc + ADR folder for low-entropy context.

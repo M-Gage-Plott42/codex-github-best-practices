@@ -17,6 +17,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added `CONTRIBUTING.md` and `.github/CODEOWNERS`.
 - Added `scripts/generate_ruleset_payload.sh` for reusable ruleset JSON generation.
 - Added `scripts/smoke_bootstrap_ruleset_payload.sh` for payload smoke testing.
+- Added `scripts/run_repo_quick_gate.sh` as a one-command local guardrail.
+- Added `scripts/check_storage_boundaries.py` for optional storage boundary audits.
+- Added optional operations pattern guidance (`docs/operations-patterns.md`).
+- Added optional host profile, storage boundary, and run manifest example policies.
+- Added active-focus and ADR example scaffolding (`docs/active/*`, `docs/adr/*`).
 
 ### Changed
 
@@ -36,6 +41,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added harness-engineering guidance across README, AGENTS, standards, and
   contributing docs.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
+- Updated AGENTS/CONTRIBUTING guidance with setup-trigger and quick-gate usage.
 
 ## [0.1.0] - 2026-02-16
 

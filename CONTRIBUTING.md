@@ -20,6 +20,7 @@ in the PR description.
 Run the same checks expected by CI:
 
 ```bash
+bash scripts/run_repo_quick_gate.sh
 ruff check .
 yamllint -c .yamllint.yml .
 markdownlint-cli2 "**/*.md"
@@ -27,6 +28,12 @@ actionlint
 shellcheck scripts/bootstrap_repo.sh
 bash -n scripts/bootstrap_repo.sh
 bash scripts/smoke_bootstrap_ruleset_payload.sh
+```
+
+Optional (when boundary policy is configured):
+
+```bash
+bash scripts/run_repo_quick_gate.sh --with-boundaries --strict-boundaries
 ```
 
 ## Pull Request Guidance

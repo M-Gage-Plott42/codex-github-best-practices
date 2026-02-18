@@ -19,6 +19,25 @@ Prefer changes that improve downstream reliability, security, and clarity.
 - Prefer minimal, auditable diffs over broad refactors.
 - Use pinned GitHub Actions versions in workflows.
 
+## Setup Trigger Matrix
+
+- Do not run full bootstrap on every thread.
+- Run bootstrap/setup only when:
+  - new machine or fresh clone,
+  - `.venv` is missing/recreated, or
+  - dependency/hook files changed.
+- Run the quick local gate at least once per active session and before major push:
+
+  ```bash
+  bash scripts/run_repo_quick_gate.sh
+  ```
+
+- If storage boundaries are configured in downstream repos, run:
+
+  ```bash
+  bash scripts/run_repo_quick_gate.sh --with-boundaries --strict-boundaries
+  ```
+
 ## Context Map
 
 - CI/workflow changes:
@@ -53,9 +72,18 @@ Prefer changes that improve downstream reliability, security, and clarity.
 ## Validation Expectations
 
 - Run file-relevant checks locally before finishing:
+  - `bash scripts/run_repo_quick_gate.sh`
   - `ruff check .`
   - `yamllint -c .yamllint.yml .`
   - `markdownlint-cli2 "**/*.md"`
   - `actionlint`
   - `shellcheck scripts/bootstrap_repo.sh`
 - If a check is unavailable locally, state that explicitly in the handoff.
+
+## Optional Scalability Patterns
+
+- Host profiles: `docs/policies/host_profiles.example.json`
+- Run provenance example: `docs/policies/run_manifest.example.json`
+- Storage boundaries: `docs/policies/storage_boundaries.example.json`
+- Active focus + ADR memory: `docs/active/current_focus.example.md`,
+  `docs/adr/README.md`

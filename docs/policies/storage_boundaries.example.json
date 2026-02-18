@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "updated_utc": "2026-02-18T00:00:00Z",
+  "local_only": [
+    "runs/",
+    "snapshots/",
+    "data/"
+  ],
+  "tracked": [
+    "src/",
+    "scripts/",
+    "docs/",
+    ".github/"
+  ],
+  "notes": "Example-only boundary map. Adjust paths to your repository layout before strict enforcement."
+}

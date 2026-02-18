@@ -65,6 +65,21 @@ This template consolidates maintainership patterns proven in the following repos
 - Unknowns and blockers should be surfaced early, with explicit fallback options.
 - Standards should be revised as tools and model behavior evolve.
 
+## Operational Friction Reducers (Optional Patterns)
+
+The following patterns are optional but high ROI for agent-heavy repositories:
+
+1. Single quick-gate command before pushes (`scripts/run_repo_quick_gate.sh`).
+2. Event-triggered setup policy (bootstrap only on trigger changes, not every thread).
+3. Machine-readable host profiles for default jobs/backend selection.
+4. Manifest-first run provenance with central run index and integrity checks.
+5. Storage boundary audits for local-only synced artifacts vs tracked code/docs.
+6. Active-doc contraction with ADRs to preserve rationale and reduce prompt load.
+
+Reference:
+
+- `docs/operations-patterns.md`
+
 ## Release and Audit Defaults
 
 - Semantic version tags and release notes.

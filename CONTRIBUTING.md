@@ -8,6 +8,7 @@ small, portable, and easy to apply in downstream repos.
 1. Read `README.md`, `AGENTS.md`, and `docs/standards.md`.
 2. Keep workflow, script, and docs changes synchronized.
 3. Update `CHANGELOG.md` under `[Unreleased]` for user-visible changes.
+4. Prefer SSH git remotes for push operations in Codex/headless sessions.
 
 ## Execution Plan Requirement
 

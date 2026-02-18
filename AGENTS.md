@@ -18,6 +18,7 @@ Prefer changes that improve downstream reliability, security, and clarity.
 - When workflow behavior changes, update `README.md` and `CHANGELOG.md` in the same patch.
 - Prefer minimal, auditable diffs over broad refactors.
 - Use pinned GitHub Actions versions in workflows.
+- Prefer SSH Git remotes for push operations in Codex sessions.
 
 ## Setup Trigger Matrix
 

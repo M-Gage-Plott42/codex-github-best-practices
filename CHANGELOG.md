@@ -42,6 +42,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
   contributing docs.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
 - Updated AGENTS/CONTRIBUTING guidance with setup-trigger and quick-gate usage.
+- Added SSH-first git transport guidance for Codex/headless push workflows.
 
 ## [0.1.0] - 2026-02-16
 

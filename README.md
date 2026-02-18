@@ -108,6 +108,24 @@ Optional strict boundary check:
 bash scripts/run_repo_quick_gate.sh --with-boundaries --strict-boundaries
 ```
 
+## Git Transport For Codex Sessions
+
+Prefer SSH remotes for push operations from Codex/non-interactive shells.
+HTTPS pushes can fail on credential prompts in headless environments.
+
+Use:
+
+```bash
+git remote set-url origin git@github.com:<owner>/<repo>.git
+gh auth setup-git
+```
+
+Check:
+
+```bash
+git remote -v
+```
+
 ## Bootstrap New Repo Settings
 
 ```bash

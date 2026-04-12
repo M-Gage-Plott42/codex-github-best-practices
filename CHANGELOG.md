@@ -22,14 +22,23 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added optional operations pattern guidance (`docs/operations-patterns.md`).
 - Added optional host profile, storage boundary, and run manifest example policies.
 - Added active-focus and ADR example scaffolding (`docs/active/*`, `docs/adr/*`).
+- Added dependency review workflow (`.github/workflows/dependency-review.yml`)
+  and config file (`.github/dependency-review-config.yml`).
 
 ### Changed
 
 - Updated CodeQL workflow to use explicit `build-mode: none` for Python and
   GitHub Actions in advanced setup.
+- Pinned `github/codeql-action` workflow references to full commit SHAs.
+- Added workflow-level concurrency to required-check workflows so superseded
+  runs are canceled on active refs.
+- Added `merge_group` triggers to required-check workflows for merge-queue
+  compatibility.
 - Updated bootstrap automation to disable CodeQL default setup when applying
   this template, preventing advanced/default setup conflicts.
 - Updated bootstrap ruleset payload to require `actionlint` and `shellcheck`.
+- Updated bootstrap/ruleset generation to support opt-in required dependency
+  review via `REQUIRE_DEPENDENCY_REVIEW=1`.
 - Added optional CodeQL-required-check rollout via
   `REQUIRE_CODEQL_CHECKS=1` after first green CodeQL run.
 - Updated bootstrap to support `RULESET_PAYLOAD_ONLY=1` for payload-only runs.
@@ -41,8 +50,14 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Added harness-engineering guidance across README, AGENTS, standards, and
   contributing docs.
 - Updated README and standards docs to document AGENTS pattern and CodeQL mode.
+- Updated README and standards docs with current Actions SHA-pinning guidance
+  and dependency review support matrix.
+- Enabled repository-level Actions SHA pinning for the live template repo while
+  keeping bootstrap automation docs-only for that setting.
 - Updated AGENTS/CONTRIBUTING guidance with setup-trigger and quick-gate usage.
 - Added SSH-first git transport guidance for Codex/headless push workflows.
+- Expanded optional operations guidance with reusable workflow recommendations
+  for multi-repo estates.
 
 ## [0.1.0] - 2026-02-16
 

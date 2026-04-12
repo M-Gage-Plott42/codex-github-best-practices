@@ -7,6 +7,7 @@ trap 'rm -rf "${tmp_dir}"' EXIT
 
 payload_default="${tmp_dir}/ruleset_default.json"
 payload_with_codeql="${tmp_dir}/ruleset_with_codeql.json"
+payload_with_dependency_review="${tmp_dir}/ruleset_with_dependency_review.json"
 placeholder_repo="example-owner/example-repo"
 
 RULESET_PAYLOAD_ONLY=1 RULESET_PAYLOAD_PATH="${payload_default}" \
@@ -15,8 +16,12 @@ RULESET_PAYLOAD_ONLY=1 RULESET_PAYLOAD_PATH="${payload_default}" \
 REQUIRE_CODEQL_CHECKS=1 RULESET_PAYLOAD_ONLY=1 RULESET_PAYLOAD_PATH="${payload_with_codeql}" \
   bash "${script_dir}/bootstrap_repo.sh" "${placeholder_repo}" >/dev/null
 
+REQUIRE_DEPENDENCY_REVIEW=1 RULESET_PAYLOAD_ONLY=1 RULESET_PAYLOAD_PATH="${payload_with_dependency_review}" \
+  bash "${script_dir}/bootstrap_repo.sh" "${placeholder_repo}" >/dev/null
+
 python3 -m json.tool "${payload_default}" >/dev/null
 python3 -m json.tool "${payload_with_codeql}" >/dev/null
+python3 -m json.tool "${payload_with_dependency_review}" >/dev/null
 
 for context in ruff markdownlint yamllint actionlint shellcheck; do
   rg -F -q "\"context\": \"${context}\"" "${payload_default}"
@@ -29,5 +34,7 @@ fi
 
 rg -F -q '"context": "Analyze (python)"' "${payload_with_codeql}"
 rg -F -q '"context": "Analyze (actions)"' "${payload_with_codeql}"
+
+rg -F -q '"context": "dependency-review"' "${payload_with_dependency_review}"
 
 echo "Ruleset payload smoke test passed."

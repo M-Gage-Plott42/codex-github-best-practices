@@ -81,3 +81,19 @@ Suggested baseline:
 - decision memory: `docs/adr/README.md`
 
 This keeps agent context small while preserving rationale history.
+
+## 7) Reusable workflows for multi-repo estates
+
+If several repositories repeat the same lint or policy workflows, extract the
+common job graph into a reusable workflow and call it with `workflow_call`.
+
+Guidance:
+
+- keep required-check job names stable while migrating, so rulesets and branch
+  protections do not lose their expected status contexts;
+- prefer local reusable workflow references (`./.github/workflows/...`) when the
+  caller and callee live in the same repository;
+- if calling a reusable workflow from another repository, pin the reference to a
+  full commit SHA instead of a moving branch or tag;
+- separate the extraction/refactor from policy changes such as new required
+  checks or new security gates, so rollback remains obvious.

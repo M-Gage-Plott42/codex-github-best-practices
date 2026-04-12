@@ -56,7 +56,9 @@ agents:
 - `.github/workflows/lint-actions.yml`
 - `.github/workflows/lint-shell.yml`
 - `.github/workflows/codeql.yml`
+- `.github/workflows/dependency-review.yml`
 - `.github/workflows/dependabot-auto-merge.yml`
+- `.github/dependency-review-config.yml`
 - `.github/CODEOWNERS`
 - `.pre-commit-config.yaml`
 - `.markdownlint.yaml`
@@ -108,6 +110,40 @@ Optional strict boundary check:
 bash scripts/run_repo_quick_gate.sh --with-boundaries --strict-boundaries
 ```
 
+## Workflow Hardening Defaults
+
+Required-check workflows in this template are hardened to be portable and
+predictable:
+
+- action references are pinned to full commit SHAs,
+- workflow-level concurrency cancels superseded runs on the same ref,
+- `merge_group` triggers are included so merge queue can reuse the same
+  required checks without missing status reports.
+
+## Actions SHA Pinning Setting
+
+As of `2026-04-12`, this repository's Actions permissions audit returns
+`sha_pinning_required=true`.
+
+Audit a repository setting read-only with:
+
+```bash
+gh api repos/<owner>/<repo>/actions/permissions
+```
+
+Enable the setting manually in the GitHub UI:
+
+- `Settings -> Actions -> General -> Require actions to be pinned to a full-length commit SHA`
+
+Or via the Actions permissions API:
+
+- `PATCH /repos/{owner}/{repo}/actions/permissions`
+
+This template does not automate that API call in `scripts/bootstrap_repo.sh`
+yet, because the same endpoint also controls `allowed_actions`, which is a
+broader policy decision than simply flipping SHA enforcement. The live template
+repository now enforces the setting directly at the repository level.
+
 ## Git Transport For Codex Sessions
 
 Prefer SSH remotes for push operations from Codex/non-interactive shells.
@@ -144,6 +180,32 @@ CodeQL required-check rollout is intentionally two-phase. After one confirmed gr
 REQUIRE_CODEQL_CHECKS=1 bash scripts/bootstrap_repo.sh M-Gage-Plott42/your-repo
 ```
 
+## Dependency Review (Optional, Gated)
+
+This template includes a dependency review workflow plus
+`.github/dependency-review-config.yml`, but keeps required-check enforcement
+opt-in.
+
+Support matrix:
+
+- public repositories: supported by default;
+- private repositories: supported only with GitHub Code Security or GitHub
+  Advanced Security.
+
+Default behavior:
+
+- public repositories run dependency review automatically on pull requests;
+- private repositories keep the job dormant unless the repository variable
+  `ENABLE_DEPENDENCY_REVIEW=true` (or `1`) is set after the repository has the
+  required GitHub security feature enabled.
+
+Make dependency review required in branch rulesets only when the repository is
+ready for it:
+
+```bash
+REQUIRE_DEPENDENCY_REVIEW=1 bash scripts/bootstrap_repo.sh M-Gage-Plott42/your-repo
+```
+
 Ruleset payload smoke test:
 
 ```bash
@@ -163,6 +225,7 @@ The template now includes portable patterns for:
 - machine-readable host profiles,
 - manifest-first run provenance,
 - storage boundary audits,
-- active-doc contraction with ADR memory.
+- active-doc contraction with ADR memory,
+- reusable workflows with `workflow_call` for multi-repo estates.
 
 See `docs/operations-patterns.md`.

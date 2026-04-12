@@ -4,17 +4,21 @@ set -euo pipefail
 if [[ $# -lt 1 ]]; then
   echo "Usage: $0 <owner/repo>"
   echo "Optional: REQUIRE_CODEQL_CHECKS=1 to require CodeQL checks after first green run."
+  echo "Optional: REQUIRE_DEPENDENCY_REVIEW=1 to require dependency review when supported."
   echo "Optional: RULESET_PAYLOAD_ONLY=1 to render ruleset payload JSON and exit."
   exit 1
 fi
 
 REPO="$1"
 REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS:-0}"
+REQUIRE_DEPENDENCY_REVIEW="${REQUIRE_DEPENDENCY_REVIEW:-0}"
 RULESET_PAYLOAD_ONLY="${RULESET_PAYLOAD_ONLY:-0}"
 RULESET_PAYLOAD_PATH="${RULESET_PAYLOAD_PATH:-/tmp/repo_ruleset_payload.json}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS}" "${SCRIPT_DIR}/generate_ruleset_payload.sh" > "${RULESET_PAYLOAD_PATH}"; then
+if REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS}" \
+  REQUIRE_DEPENDENCY_REVIEW="${REQUIRE_DEPENDENCY_REVIEW}" \
+  "${SCRIPT_DIR}/generate_ruleset_payload.sh" > "${RULESET_PAYLOAD_PATH}"; then
   :
 else
   echo "Failed to generate ruleset payload at ${RULESET_PAYLOAD_PATH}." >&2
@@ -78,6 +82,12 @@ if [[ "${REQUIRE_CODEQL_CHECKS}" == "1" ]]; then
   echo "Including CodeQL checks in required status checks."
 else
   echo "Skipping CodeQL required checks. Set REQUIRE_CODEQL_CHECKS=1 after one green CodeQL run."
+fi
+
+if [[ "${REQUIRE_DEPENDENCY_REVIEW}" == "1" ]]; then
+  echo "Including dependency review in required status checks."
+else
+  echo "Skipping dependency review required check. Set REQUIRE_DEPENDENCY_REVIEW=1 when the repo supports dependency review."
 fi
 
 if [[ -n "${existing_id}" ]]; then

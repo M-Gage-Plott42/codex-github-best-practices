@@ -25,6 +25,16 @@ This template consolidates maintainership patterns proven in the following repos
 - CodeQL advanced workflow enabled for Python and GitHub Actions.
 - CodeQL default setup disabled when advanced workflow is present.
 - CodeQL checks move to required status checks only after one confirmed green run.
+- Workflow action references pin to full commit SHAs for immutable releases.
+- Repository-level `sha_pinning_required=true` is the recommended hardened
+  state, but this template documents that setting instead of bootstrap-managing
+  it because the same Actions permissions API also controls `allowed_actions`.
+  The live template repository enforces `sha_pinning_required=true` directly at
+  the repository settings level.
+- Dependency review is available as a gated workflow baseline:
+  - public repositories are supported by default;
+  - private repositories require GitHub Code Security or GitHub Advanced
+    Security before enabling the workflow as an active gate.
 
 ## CI and Quality Defaults
 
@@ -37,6 +47,10 @@ This template consolidates maintainership patterns proven in the following repos
 - `AGENTS.md` operational guidance for repository-local agent behavior.
 - `docs/AGENTS.example.md` as a copy/adapt baseline for downstream repos.
 - Bootstrap ruleset payload generation covered by a dedicated smoke script.
+- Required-check workflows use workflow-level concurrency so superseded runs are
+  canceled instead of piling up on active branches.
+- Required-check workflows include `merge_group` triggers so merge queue can
+  reuse the same required checks without missing status reports.
 
 ## Harness Engineering Standards
 
@@ -75,6 +89,8 @@ The following patterns are optional but high ROI for agent-heavy repositories:
 4. Manifest-first run provenance with central run index and integrity checks.
 5. Storage boundary audits for local-only synced artifacts vs tracked code/docs.
 6. Active-doc contraction with ADRs to preserve rationale and reduce prompt load.
+7. Reusable workflows with `workflow_call` when multiple repos share the same CI
+   job graph and stable required-check contexts must be preserved.
 
 Reference:
 

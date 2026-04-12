@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REQUIRE_CODEQL_CHECKS="${REQUIRE_CODEQL_CHECKS:-0}"
+REQUIRE_DEPENDENCY_REVIEW="${REQUIRE_DEPENDENCY_REVIEW:-0}"
 
 required_checks=(
   "ruff"
@@ -10,6 +11,12 @@ required_checks=(
   "actionlint"
   "shellcheck"
 )
+
+if [[ "${REQUIRE_DEPENDENCY_REVIEW}" == "1" ]]; then
+  required_checks+=(
+    "dependency-review"
+  )
+fi
 
 if [[ "${REQUIRE_CODEQL_CHECKS}" == "1" ]]; then
   required_checks+=(
